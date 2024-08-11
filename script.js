@@ -1,14 +1,13 @@
 const logWorkoutForm = document.getElementById('log-workout-form')
 
-// TODO: create a function that triggers on page load, which loads last workout data from localStorage
-// TODO create a data structure that allows for multiple workouts to be logged
+let workoutsData = []
 
 // TODO add a confirmation message that workout data was saved successfully
 
 // future TODO: store workouts data on cloud storage (firebase?)
 
 
-const logWorkoutData = (event) => {
+const saveWorkoutData = (event) => {
 
     event.preventDefault()
 
@@ -23,19 +22,40 @@ const logWorkoutData = (event) => {
     // add workout data to workout object
     workoutDataObj.exerciseData = formDataObj
 
+    // Add workout data to workoutsData array
+    workoutsData.push(workoutDataObj)
+
     // Store the form data in localStorage
-    localStorage.setItem('logWorkoutFormData', JSON.stringify(workoutDataObj))
+    localStorage.setItem('workoutsData', JSON.stringify(workoutsData))
 
     // Optional: Display a success message
     // console.log('Form data stored successfully!');
 }
 
 
-const loadWorkoutData = () => {
-    const workoutsData = JSON.parse(localStorage.getItem('workoutsData')) || []
+const loadLatestWorkoutData = () => {
+    workoutsData = JSON.parse(localStorage.getItem('workoutsData')) || []
+    console.log(workoutsData[workoutsData.length - 1])
+
+    const latestWorkout = workoutsData[workoutsData.length - 1]
+
+    if (latestWorkout) {
+        const exerciseData = latestWorkout.exerciseData
+        const exerciseDataKeys = Object.keys(exerciseData)
+
+        exerciseDataKeys.forEach(key => {
+            const inputElement = document.getElementById(key)
+            inputElement.value = exerciseData[key]
+        })
+    }
+
 }
+
+
+
 
 
 // Add a submit event listener to the form
 
-logWorkoutForm.addEventListener('submit', logWorkoutData)
+logWorkoutForm.addEventListener('submit', saveWorkoutData)
+document.addEventListener("DOMContentLoaded", loadLatestWorkoutData);
