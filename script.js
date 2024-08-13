@@ -1,3 +1,13 @@
+/* 
+TODO make sets be recorded as arrays of reps. 
+use document.getElements... to collect lists of elements. use the spread operator to convert it into an array.
+example:   const inputValues = [...document.getElementsByClassName("values-dropdown")];
+
+  const inputValues = [...document.getElementsByClassName("values-dropdown")].map((dropdown)=> dropdown.value);
+
+should make it easier to add sets dynamically as well as more readable workout data. 
+*/
+
 const logWorkoutForm = document.getElementById('log-workout-form')
 
 let workoutsData = []
@@ -52,7 +62,7 @@ const saveWorkoutData = (event) => {
     localStorage.setItem('workoutsData', JSON.stringify(workoutsData))
 
     // Optional: Display a success message
-    // console.log('Form data stored successfully!');
+    alert('Workout data stored successfully!');
 }
 
 
